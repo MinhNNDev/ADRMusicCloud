@@ -23,6 +23,8 @@
             android:layout_alignParentRight="true">
         </me.relex.circleindicator.CircleIndicator>
 
+
+
     </RelativeLayout>
 
 </ScrollView>
