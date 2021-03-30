@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import com.example.musiccloud.Adapter.MainViewPagerAdapter;
 import com.example.musiccloud.Fragment.Fragment_Tim_Kiem;
-import com.example.musiccloud.Fragment.Fragment_Trang_Chu;
+import com.example.musiccloud.Fragment.FragmentHome;
 import com.example.musiccloud.R;
 import com.google.android.material.tabs.TabLayout;
 
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         MainViewPagerAdapter mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
-        mainViewPagerAdapter.addFragment(new Fragment_Trang_Chu(), "Trang chu");
+        mainViewPagerAdapter.addFragment(new FragmentHome(), "Trang chu");
         mainViewPagerAdapter.addFragment(new Fragment_Tim_Kiem(), "Tim Kiem");
         viewPager.setAdapter(mainViewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);

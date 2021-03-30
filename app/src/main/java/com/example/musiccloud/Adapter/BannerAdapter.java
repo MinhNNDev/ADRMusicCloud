@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.example.musiccloud.Model.Quangcao;
+import com.example.musiccloud.Model.QuangCao;
 import com.example.musiccloud.R;
 import com.squareup.picasso.Picasso;
 
@@ -19,9 +19,9 @@ import java.util.ArrayList;
 public class BannerAdapter extends PagerAdapter {
 
     Context context;
-    ArrayList<Quangcao> arrayListbanner;
+    ArrayList<QuangCao> arrayListbanner;
 
-    public BannerAdapter(Context context, ArrayList<Quangcao> arrayListbanner) {
+    public BannerAdapter(Context context, ArrayList<QuangCao> arrayListbanner) {
         this.context = context;
         this.arrayListbanner = arrayListbanner;
     }

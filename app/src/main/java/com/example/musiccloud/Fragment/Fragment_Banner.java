@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.musiccloud.Adapter.BannerAdapter;
-import com.example.musiccloud.Model.Quangcao;
+import com.example.musiccloud.Model.QuangCao;
 import com.example.musiccloud.R;
 import com.example.musiccloud.Service.APIService;
 import com.example.musiccloud.Service.DataService;
@@ -39,8 +39,8 @@ public class Fragment_Banner extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_banner, container, false);
-        GetData();
         anhxa();
+        GetData();
         return view;
     }
 
@@ -53,11 +53,11 @@ public class Fragment_Banner extends Fragment {
     private void GetData() {
         DataService dataService = APIService.getService();
 
-        Call<List<Quangcao>> callback = dataService.GetDataBanner();
-        callback.enqueue(new Callback<List<Quangcao>>() {
+        Call<List<QuangCao>> callback = dataService.GetDataBanner();
+        callback.enqueue(new Callback<List<QuangCao>>() {
             @Override
-            public void onResponse(Call<List<Quangcao>> call, Response<List<Quangcao>> response) {
-                ArrayList<Quangcao> banners = (ArrayList<Quangcao>) response.body();
+            public void onResponse(Call<List<QuangCao>> call, Response<List<QuangCao>> response) {
+                ArrayList<QuangCao> banners = (ArrayList<QuangCao>) response.body();
                 bannerAdapter = new BannerAdapter(getActivity(), banners);
 
                 viewPager.setAdapter(bannerAdapter);
@@ -81,7 +81,7 @@ public class Fragment_Banner extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Quangcao>> call, Throwable t) {
+            public void onFailure(Call<List<QuangCao>> call, Throwable t) {
 
             }
         });

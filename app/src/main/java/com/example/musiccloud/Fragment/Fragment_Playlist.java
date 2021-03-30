@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.musiccloud.Adapter.PlaylistAdapter;
 import com.example.musiccloud.Model.Playlist;
 import com.example.musiccloud.R;
 import com.example.musiccloud.Service.APIService;
@@ -28,6 +30,8 @@ public class Fragment_Playlist extends Fragment {
     ListView lvplsylist;
     TextView txttitleplaylist, txtviewxemthemplaylist;
     View view;
+    PlaylistAdapter playlistAdapter;
+    ArrayList<Playlist> mangPlaylist;
 
     @Nullable
     @Override
@@ -46,8 +50,10 @@ public class Fragment_Playlist extends Fragment {
         callback.enqueue(new Callback<List<Playlist>>() {
             @Override
             public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
-                ArrayList<Playlist> mangPlaylist = (ArrayList<Playlist>) response.body();
-                Log.d("BBB", mangPlaylist.get(0).getTen());
+                mangPlaylist = (ArrayList<Playlist>) response.body();
+                playlistAdapter = new PlaylistAdapter(getActivity(), android.R.layout.simple_list_item_1,mangPlaylist);
+                lvplsylist.setAdapter(playlistAdapter);
+                setListViewHeightBasedOnChildren(lvplsylist);
             }
 
             @Override
@@ -55,5 +61,24 @@ public class Fragment_Playlist extends Fragment {
 
             }
         });
+    }
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 }

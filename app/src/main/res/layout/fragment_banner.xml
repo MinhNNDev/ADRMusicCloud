@@ -8,12 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ViewFlipper
+        <androidx.viewpager.widget.ViewPager
             android:background="@color/design_default_color_primary"
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="180dp">
-        </ViewFlipper>
+        </androidx.viewpager.widget.ViewPager>
 
         <me.relex.circleindicator.CircleIndicator
             android:id="@+id/indicatordrfault"
