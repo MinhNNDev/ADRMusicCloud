@@ -1,7 +1,9 @@
 package com.example.musiccloud.Service;
 
+import com.example.musiccloud.Model.Album;
 import com.example.musiccloud.Model.Playlist;
 import com.example.musiccloud.Model.QuangCao;
+import com.example.musiccloud.Model.TopSong;
 
 import java.util.List;
 
@@ -14,4 +16,13 @@ public interface DataService {
 
     @GET("playlistEveryday.php")
     Call<List<Playlist>> GetPlayListCurrentDay();
+
+
+    @GET("album.php")
+    Call<List<Album>> GetAlbumHot();
+
+    @GET("topSong.php")
+    Call<List<TopSong>> GetBaiHatHot();
+
+
 }

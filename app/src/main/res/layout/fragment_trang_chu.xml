@@ -34,6 +34,12 @@
             android:name="com.example.musiccloud.Fragment.Fragment_Album_Hot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <fragment
+            android:id="@+id/fragmentbaihathot"
+            android:name="com.example.musiccloud.Fragment.Fragment_Bai_Hat_Hot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </ScrollView>
