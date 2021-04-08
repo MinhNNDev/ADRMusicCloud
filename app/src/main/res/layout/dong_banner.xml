@@ -31,7 +31,7 @@
         <TextView
             android:id="@+id/textviewtitlebannerbaihat"
             android:textSize="17sp"
-            android:text="Lo yeu mat roi"
+            android:text="Sky Tour 2021"
             android:textStyle="bold"
             android:textColor="#ffffff"
             android:layout_marginTop="5dp"

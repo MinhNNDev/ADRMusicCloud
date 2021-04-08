@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    android:background="#ffffff">
 
     <LinearLayout
         android:id="@+id/linearlayout"
@@ -14,6 +15,18 @@
         <fragment
             android:id="@+id/fragmentbanner"
             android:name="com.example.musiccloud.Fragment.Fragment_Banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <fragment
+            android:id="@+id/fragmentbaihathot"
+            android:name="com.example.musiccloud.Fragment.Fragment_Bai_Hat_Hot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <fragment
+            android:id="@+id/fragmentxemalbum"
+            android:name="com.example.musiccloud.Fragment.Fragment_Album_Hot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -29,17 +42,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <fragment
-            android:id="@+id/fragmentxemalbum"
-            android:name="com.example.musiccloud.Fragment.Fragment_Album_Hot"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <fragment
-            android:id="@+id/fragmentbaihathot"
-            android:name="com.example.musiccloud.Fragment.Fragment_Bai_Hat_Hot"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </ScrollView>

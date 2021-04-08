@@ -9,12 +9,12 @@
         android:id="@+id/textviewtitleplaylist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="NHỊP ĐIỆU CẢM SÚC"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:textSize="30dp"
-        android:textColor="#000000"/>
+        android:text="PLAYLIST HAY NHẤT"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="10dp"
+        android:textSize="20dp"
+        android:textColor="#000000"
+        android:textStyle="bold"/>
 
     <ListView
         android:id="@+id/listviewplaylist"

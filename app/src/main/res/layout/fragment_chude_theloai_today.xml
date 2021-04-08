@@ -22,9 +22,9 @@
             android:id="@+id/textviewxemthem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="XEM THÊM"
-            android:textSize="18sp"
-            android:textColor="#913677"
+            android:text="Xem thêm"
+            android:textSize="15sp"
+            android:textColor="#1DB954"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
 

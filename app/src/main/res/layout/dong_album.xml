@@ -6,19 +6,21 @@
     android:layout_gravity="center"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    app:cardCornerRadius="10dp">
+    app:cardCornerRadius="8dp"
+    android:layout_marginBottom="5sp">
 
     <LinearLayout
         android:id="@+id/linearcarviewalbum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
         <ImageView
             android:layout_gravity="center"
             android:id="@+id/imagealbum"
             android:scaleType="fitXY"
-            android:layout_width="200dp"
-            android:layout_height="200dp" />
+            android:layout_width="186dp"
+            android:layout_height="180dp" />
 
         <TextView
             android:id="@+id/textviewtenalbum"
@@ -28,9 +30,10 @@
             android:layout_marginRight="2dp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:text="Ngay xuan long phung xum vay"
-            android:textSize="20sp"
-            android:maxWidth="200dp"/>
+            android:text="Tên Album"
+            android:textSize="18sp"
+            android:maxWidth="180dp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/textviewtencasialbum"
@@ -40,7 +43,7 @@
             android:layout_marginLeft="2dp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:text="Noo Phuoc Thinh"
+            android:text="Ca sĩ"
             android:textColor="#9e9797"
             android:maxWidth="200dp"
             android:textSize="15sp" />

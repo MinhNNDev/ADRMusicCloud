@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp">
 
     <ImageView
         android:id="@+id/imageviewbaihathot"
@@ -21,7 +22,7 @@
         android:ellipsize="end"
         android:textColor="#363636"
         android:textSize="18sp"
-        android:text="Ten bai hat"/>
+        android:text="Tên bài hát"/>
     
     <TextView
         android:id="@+id/textviewcasibaihathot"
@@ -32,7 +33,7 @@
         android:layout_marginTop="7dp"
         android:layout_toRightOf="@id/imageviewbaihathot"
         android:maxLines="1"
-        android:text="ca si"
+        android:text="Tên ca sĩ"
         android:textSize="18sp"
         android:textColor="#8c8a8a"/>
     
@@ -42,6 +43,6 @@
         android:id="@+id/imageviewluotthich"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_width="30dp"
-        android:layout_height="30dp" />
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
 </RelativeLayout>

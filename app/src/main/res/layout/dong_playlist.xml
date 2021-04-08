@@ -43,7 +43,7 @@
         android:layout_marginLeft="13sp"
         android:layout_toRightOf="@+id/imageviewplaylist"
         android:layout_alignBottom="@id/imagebackgroundplaylist"
-        android:text="Nhung bai hit xua"
+        android:text="Playlist Name"
         android:textSize="13sp"/>
 
 </RelativeLayout>
