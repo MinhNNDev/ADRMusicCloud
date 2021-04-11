@@ -14,8 +14,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.musiccloud.Adapter.DanhsachbaihatAdapter;
 import com.example.musiccloud.Model.Baihat;
 import com.example.musiccloud.Model.QuangCao;
 import com.example.musiccloud.R;
@@ -45,6 +47,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
     RecyclerView recyclerViewDanhsachbaihat;
     FloatingActionButton floatingActionButton;
     ArrayList<Baihat> mangbaihat;
+    DanhsachbaihatAdapter danhsachbaihatAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,18 +58,20 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         init();
         if(quangCao != null && !quangCao.getTenBaiHat().equals("")) {
             setValueInView(quangCao.getTenBaiHat(), quangCao.getHinhBaiHat());
-            GetDataQuangCao(quangCao.getIdBaiHat());
+            GetDataQuangCao(quangCao.getId());
         }
     }
 
-    private void GetDataQuangCao(String idBaiHat) {
+    private void GetDataQuangCao( String id) {
         DataService dataService = APIService.getService();
-        Call<List<Baihat>> callback = dataService.GetDanhsachbaihattheoquangcao(idBaiHat);
+        Call<List<Baihat>> callback = dataService.GetDanhsachbaihattheoquangcao(id);
         callback.enqueue(new Callback<List<Baihat>>() {
             @Override
             public void onResponse(Call<List<Baihat>> call, Response<List<Baihat>> response) {
                 mangbaihat = (ArrayList<Baihat>) response.body();
-                Log.d("BBB", mangbaihat.get(0).getIdBaiHat());
+                danhsachbaihatAdapter = new DanhsachbaihatAdapter(DanhsachbaihatActivity.this, mangbaihat);
+                recyclerViewDanhsachbaihat.setLayoutManager(new LinearLayoutManager(DanhsachbaihatActivity.this));
+                recyclerViewDanhsachbaihat.setAdapter(danhsachbaihatAdapter);
             }
 
             @Override

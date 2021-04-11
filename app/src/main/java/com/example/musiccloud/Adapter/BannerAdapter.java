@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
@@ -59,7 +58,7 @@ public class BannerAdapter extends PagerAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(context, DanhsachbaihatActivity.class);
                 intent.putExtra("banner", arrayListbanner.get(position));
-                context.startService(intent);
+                context.startActivity(intent);
             }
         });
         container.addView(view);
