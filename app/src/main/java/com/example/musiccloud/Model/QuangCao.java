@@ -3,7 +3,9 @@ package com.example.musiccloud.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class QuangCao {
+import java.io.Serializable;
+
+public class QuangCao implements Serializable {
 
     @SerializedName("id")
     @Expose
