@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musiccloud.Adapter.DanhsachbaihatAdapter;
+import com.example.musiccloud.Async.DownloadImageTask;
 import com.example.musiccloud.Model.Baihat;
 import com.example.musiccloud.Model.QuangCao;
 import com.example.musiccloud.R;
@@ -56,13 +57,17 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         DataIntent();
         anhxa();
         init();
-        if(quangCao != null && !quangCao.getTenBaiHat().equals("")) {
+
+        //new Thread(() -> {
+        if (quangCao != null && !quangCao.getTenBaiHat().equals("")) {
             setValueInView(quangCao.getTenBaiHat(), quangCao.getHinhBaiHat());
             GetDataQuangCao(quangCao.getId());
         }
+        //}).start();
+
     }
 
-    private void GetDataQuangCao( String id) {
+    private void GetDataQuangCao(String id) {
         DataService dataService = APIService.getService();
         Call<List<Baihat>> callback = dataService.GetDanhsachbaihattheoquangcao(id);
         callback.enqueue(new Callback<List<Baihat>>() {
@@ -83,16 +88,23 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
 
     private void setValueInView(String ten, String hinh) {
         collapsingToolbarLayout.setTitle(ten);
-        try {
-            URL url = new URL(hinh);
-            Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
-            collapsingToolbarLayout.setBackground(bitmapDrawable);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        new DownloadImageTask(getApplicationContext(), collapsingToolbarLayout)
+                .execute(hinh);
+//        try {
+//            // URL url = new URL(hinh);
+////            Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+////            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
+////            collapsingToolbarLayout.setBackground(bitmapDrawable);
+//
+//
+//
+//
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         Picasso.get().load(hinh).into(imgdanhsachcakhuc);
 
     }
@@ -125,7 +137,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         coordinatorLayout = findViewById(R.id.coordinatorlayout);
         collapsingToolbarLayout = findViewById(R.id.collapstringtoolbar);
         toolbar = findViewById(R.id.toolbardanhsach);
-        recyclerViewDanhsachbaihat =findViewById(R.id.recycleviewdanhsachbaihat);
+        recyclerViewDanhsachbaihat = findViewById(R.id.recycleviewdanhsachbaihat);
         floatingActionButton = findViewById(R.id.floatingactionbutton);
         imgdanhsachcakhuc = findViewById(R.id.imageviewdanhsachcakhuc);
     }
