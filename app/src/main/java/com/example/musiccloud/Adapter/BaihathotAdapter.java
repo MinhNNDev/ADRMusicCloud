@@ -1,6 +1,7 @@
 package com.example.musiccloud.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.musiccloud.Activity.PlayNhacActivity;
 import com.example.musiccloud.Model.TopSong;
 import com.example.musiccloud.R;
 import com.squareup.picasso.Picasso;
@@ -58,6 +60,14 @@ public class BaihathotAdapter extends RecyclerView.Adapter<BaihathotAdapter.View
             txtcasi = itemView.findViewById(R.id.textviewcasibaihathot);
             imghinh = itemView.findViewById(R.id.imageviewbaihathot);
             imgluotthich = itemView.findViewById(R.id.imageviewluotthich);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, PlayNhacActivity.class);
+                    //intent.putExtra("cakhuc", baihatArrayList.get(getOldPosition()));
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }

@@ -1,10 +1,12 @@
 package com.example.musiccloud.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.musiccloud.Activity.DanhsachbaihatActivity;
+import com.example.musiccloud.Activity.DanhsachcacplaylistActivity;
 import com.example.musiccloud.Adapter.PlaylistAdapter;
 import com.example.musiccloud.Model.Playlist;
 import com.example.musiccloud.R;
@@ -33,6 +37,7 @@ public class Fragment_Playlist extends Fragment {
     PlaylistAdapter playlistAdapter;
     ArrayList<Playlist> mangPlaylist;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,6 +46,13 @@ public class Fragment_Playlist extends Fragment {
         txttitleplaylist = view.findViewById(R.id.textviewtitleplaylist);
         txtviewxemthemplaylist = view.findViewById(R.id.textviewmoreplaylist);
         GetData();
+        txtviewxemthemplaylist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DanhsachcacplaylistActivity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
@@ -54,6 +66,14 @@ public class Fragment_Playlist extends Fragment {
                 playlistAdapter = new PlaylistAdapter(getActivity(), android.R.layout.simple_list_item_1,mangPlaylist);
                 lvplsylist.setAdapter(playlistAdapter);
                 setListViewHeightBasedOnChildren(lvplsylist);
+                lvplsylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent intent = new Intent(getActivity(), DanhsachbaihatActivity.class);
+                        intent.putExtra("itemplaylist", mangPlaylist.get(position));
+                        startActivity(intent);
+                    }
+                });
             }
 
             @Override

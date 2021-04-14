@@ -1,11 +1,14 @@
 package com.example.musiccloud.Model;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class TopSong {
+public class TopSong implements Parcelable {
 
 @SerializedName("idBaiHat")
 @Expose
@@ -35,7 +38,31 @@ private String linkBaiHat;
 @Expose
 private String luotThich;
 
-public String getIdBaiHat() {
+    protected TopSong(Parcel in) {
+        idBaiHat = in.readString();
+        idAlbum = in.readString();
+        idTheLoai = in.readString();
+        idPlaylist = in.readString();
+        tenBaiHat = in.readString();
+        hinhBaiHat = in.readString();
+        caSi = in.readString();
+        linkBaiHat = in.readString();
+        luotThich = in.readString();
+    }
+
+    public static final Creator<TopSong> CREATOR = new Creator<TopSong>() {
+        @Override
+        public TopSong createFromParcel(Parcel in) {
+            return new TopSong(in);
+        }
+
+        @Override
+        public TopSong[] newArray(int size) {
+            return new TopSong[size];
+        }
+    };
+
+    public String getIdBaiHat() {
 return idBaiHat;
 }
 
@@ -107,4 +134,21 @@ public void setLuotThich(String luotThich) {
 this.luotThich = luotThich;
 }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(idBaiHat);
+        dest.writeString(idAlbum);
+        dest.writeString(idTheLoai);
+        dest.writeString(idPlaylist);
+        dest.writeString(tenBaiHat);
+        dest.writeString(hinhBaiHat);
+        dest.writeString(caSi);
+        dest.writeString(linkBaiHat);
+        dest.writeString(luotThich);
+    }
 }

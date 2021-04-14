@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musiccloud.Adapter.DanhsachbaihatAdapter;
 import com.example.musiccloud.Model.Baihat;
+import com.example.musiccloud.Model.Playlist;
 import com.example.musiccloud.Model.QuangCao;
 import com.example.musiccloud.R;
 import com.example.musiccloud.Service.APIService;
@@ -48,6 +50,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     ArrayList<Baihat> mangbaihat;
     DanhsachbaihatAdapter danhsachbaihatAdapter;
+    Playlist playlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +59,37 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         DataIntent();
         anhxa();
         init();
+//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//        StrictMode.setThreadPolicy(policy);
+
         if(quangCao != null && !quangCao.getTenBaiHat().equals("")) {
             setValueInView(quangCao.getTenBaiHat(), quangCao.getHinhBaiHat());
             GetDataQuangCao(quangCao.getId());
         }
+
+        if (playlist != null && !playlist.getTen().equals("")) {
+            setValueInView(playlist.getTen(), playlist.getBackground());
+            GetDataPlaylist(playlist.getIdPlaylist());
+        }
+    }
+
+    private void GetDataPlaylist(String idplaylist) {
+        DataService dataService = APIService.getService();
+        Call<List<Baihat>> callback = dataService.GetDanhsachbaihattheoplaylist(idplaylist);
+        callback.enqueue(new Callback<List<Baihat>>() {
+            @Override
+            public void onResponse(Call<List<Baihat>> call, Response<List<Baihat>> response) {
+                mangbaihat= (ArrayList<Baihat>) response.body();
+                danhsachbaihatAdapter = new DanhsachbaihatAdapter(DanhsachbaihatActivity.this, mangbaihat);
+                recyclerViewDanhsachbaihat.setLayoutManager(new LinearLayoutManager(DanhsachbaihatActivity.this));
+                recyclerViewDanhsachbaihat.setAdapter(danhsachbaihatAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Baihat>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void GetDataQuangCao( String id) {
@@ -83,16 +113,16 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
 
     private void setValueInView(String ten, String hinh) {
         collapsingToolbarLayout.setTitle(ten);
-        try {
-            URL url = new URL(hinh);
-            Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
-            collapsingToolbarLayout.setBackground(bitmapDrawable);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            URL url = new URL(hinh);
+//            Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+//            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
+//            collapsingToolbarLayout.setBackground(bitmapDrawable);
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         Picasso.get().load(hinh).into(imgdanhsachcakhuc);
 
     }
@@ -109,6 +139,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
 
         collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
+        floatingActionButton.setEnabled(false);
     }
 
     private void DataIntent() {
@@ -116,9 +147,23 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         if (intent != null) {
             if (intent.hasExtra("banner")) {
                 quangCao = (QuangCao) intent.getSerializableExtra("banner");
-                Toast.makeText(this, quangCao.getTenBaiHat(), Toast.LENGTH_LONG).show();
             }
+
+            if (intent.hasExtra("itemplaylist"))
+                playlist =(Playlist) intent.getSerializableExtra("itemplaylist");
         }
+    }
+
+    private  void  eventClick() {
+        floatingActionButton.setEnabled(true);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DanhsachbaihatActivity.this, PlayNhacActivity.class);
+                intent.putExtra("cacbaihat", mangbaihat);
+                startActivity(intent);
+            }
+        });
     }
 
     private void anhxa() {

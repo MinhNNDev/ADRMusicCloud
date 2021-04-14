@@ -1,5 +1,6 @@
 package com.example.musiccloud.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.musiccloud.Activity.DanhsachallbumhotActivity;
 import com.example.musiccloud.Adapter.AlbumAdapter;
 import com.example.musiccloud.Model.Album;
 import com.example.musiccloud.R;
@@ -39,6 +41,13 @@ public class Fragment_Album_Hot extends Fragment {
         view = inflater.inflate(R.layout.fragment_album_hot, container, false);
         recyclerViewalbum = view.findViewById(R.id.recycleviewAlbum);
         txtxemthemalbum = view.findViewById(R.id.textviewxemthemAlbum);
+        txtxemthemalbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DanhsachallbumhotActivity.class);
+                startActivity(intent);
+            }
+        });
         GetData();
         return  view;
     }
