@@ -74,6 +74,14 @@ public class Fragment_Playlist extends Fragment {
                         startActivity(intent);
                     }
                 });
+                lvplsylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent intent = new Intent(getActivity(), DanhsachbaihatActivity.class);
+                        intent.putExtra("itemplaylist", mangPlaylist.get(position));
+                        startActivity(intent);
+                    }
+                });
             }
 
             @Override

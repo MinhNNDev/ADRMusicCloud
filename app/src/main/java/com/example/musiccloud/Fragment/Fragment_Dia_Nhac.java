@@ -20,7 +20,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Fragment_Dia_Nhac extends Fragment {
     View view;
     CircleImageView circleImageView;
-    ObjectAnimator objectAnimator;
+    public ObjectAnimator objectAnimator;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -31,6 +31,7 @@ public class Fragment_Dia_Nhac extends Fragment {
         objectAnimator.setRepeatCount(ValueAnimator.INFINITE);
         objectAnimator.setRepeatMode(ValueAnimator.RESTART);
         objectAnimator.setInterpolator(new LinearInterpolator());
+        objectAnimator.start();
         return view;
     }
 
