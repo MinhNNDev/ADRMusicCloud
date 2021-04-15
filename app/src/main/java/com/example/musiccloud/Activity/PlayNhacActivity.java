@@ -141,40 +141,46 @@ public class PlayNhacActivity extends AppCompatActivity {
             }
         });
         // -- Nút lặp
-        imgRepeat.setOnClickListener(v -> {
+        imgRepeat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                {
 
-            if (repeat == false) {
-                if (checkrandom == true) {
-                    checkrandom = false;
-                    imgRepeat.setImageResource(R.drawable.iconsyned);
-                    imgRandom.setImageResource(R.drawable.iconsuffle);
+                    if (repeat == false) {
+                        if (checkrandom == true) {
+                            checkrandom = false;
+                            imgRepeat.setImageResource(R.drawable.iconsyned);
+                            imgRandom.setImageResource(R.drawable.iconsuffle);
+                        }
+
+                        imgRepeat.setImageResource(R.drawable.iconsyned);
+                        repeat = true;
+                    } else {
+                        imgRepeat.setImageResource(R.drawable.iconrepeat);
+                        repeat = false;
+                    }
                 }
-
-                imgRepeat.setImageResource(R.drawable.iconsyned);
-                repeat = true;
-            } else {
-                imgRepeat.setImageResource(R.drawable.iconrepeat);
-                repeat = false;
             }
         });
 
         // -- Nút chạy ngẫu nhiên
-        imgRandom.setOnClickListener(v -> {
+        imgRandom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkrandom == false) {
+                    if (repeat == true) {
+                        repeat = false;
+                        imgRandom.setImageResource(R.drawable.iconshuffled);
+                        imgRepeat.setImageResource(R.drawable.iconrepeat);
+                    }
 
-            if (checkrandom == false) {
-                if (repeat == true) {
-                    repeat = false;
                     imgRandom.setImageResource(R.drawable.iconshuffled);
-                    imgRepeat.setImageResource(R.drawable.iconrepeat);
+                    checkrandom = true;
+                } else {
+                    imgRandom.setImageResource(R.drawable.iconsuffle);
+                    checkrandom = false;
                 }
-
-                imgRandom.setImageResource(R.drawable.iconshuffled);
-                checkrandom = true;
-            } else {
-                imgRandom.setImageResource(R.drawable.iconsuffle);
-                checkrandom = false;
             }
-
         });
 
         // -- cập nhật thanh seekbar
@@ -228,6 +234,7 @@ public class PlayNhacActivity extends AppCompatActivity {
                         new PlayMp3().execute(mangbaihat.get(position).getLinkBaiHat());
                         fragment_dia_nhac.PlayNhac(mangbaihat.get(position).getHinhBaiHat());
                         getSupportActionBar().setTitle(mangbaihat.get(position).getTenBaiHat());
+                        Update();
                     }
                 }
 
@@ -281,6 +288,7 @@ public class PlayNhacActivity extends AppCompatActivity {
                     new PlayMp3().execute(mangbaihat.get(position).getLinkBaiHat());
                     fragment_dia_nhac.PlayNhac(mangbaihat.get(position).getHinhBaiHat());
                     getSupportActionBar().setTitle(mangbaihat.get(position).getTenBaiHat());
+                    Update();
                 }
                 imgPre.setClickable(false);
                 imgNext.setClickable(false);
@@ -357,6 +365,7 @@ public class PlayNhacActivity extends AppCompatActivity {
             }
             mediaPlayer.start();
             TimeSong();
+            Update();
         }
     }
 
@@ -365,5 +374,75 @@ public class PlayNhacActivity extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");
         txtTotaltimesong.setText(simpleDateFormat.format(mediaPlayer.getDuration()));
         sktime.setMax(mediaPlayer.getDuration() / 1000);
+    }
+
+    private void Update() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        next = true;
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }, 300);
+        Handler handler1 = new Handler();
+        handler1.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (next == true) {
+                    if (position < (mangbaihat.size())) {
+                        imgPlay.setImageResource(R.drawable.iconpause);
+                        position++;
+                        if (repeat == true) {
+                            if (position == 0) {
+                                position = mangbaihat.size();
+                            }
+                            position -= 1;
+                        }
+                        if (checkrandom == true) {
+                            Random random = new Random();
+                            int index = random.nextInt(mangbaihat.size());
+                            if (index == position) {
+                                position = index - 1; // để index đừng vượt qua giá trị của mảng
+                            }
+                            position = index;
+                        }
+                        if (position > (mangbaihat.size() - 1)) {
+                            position = 0;
+                        }
+                        new PlayMp3().execute(mangbaihat.get(position).getLinkBaiHat());
+                        fragment_dia_nhac.PlayNhac(mangbaihat.get(position).getHinhBaiHat());
+                        getSupportActionBar().setTitle(mangbaihat.get(position).getTenBaiHat());
+                    }
+
+
+                    // tránh việc click quá nhiều gây crack app
+                    imgPre.setClickable(false);
+                    imgNext.setClickable(false);
+
+                    Handler handler1 = new Handler(); // dùng để thực thi
+                    handler1.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            imgPre.setClickable(true);
+                            imgNext.setClickable(true);
+                        }
+                    }, 2000); // thực thi sau 2s
+                    next = false;
+                    handler1.removeCallbacks(this);
+                } else {
+                    handler1.postDelayed(this, 1000);
+                }
+            }
+        }, 1000);
     }
 }
