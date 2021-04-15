@@ -13,18 +13,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musiccloud.Activity.PlayNhacActivity;
-import com.example.musiccloud.Model.Baihat;
+import com.example.musiccloud.Model.BaiHat;
 import com.example.musiccloud.R;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class DanhsachbaihatAdapter extends RecyclerView.Adapter<DanhsachbaihatAdapter.ViewHolder>{
 
     Context context;
-    ArrayList<Baihat> mangbaihat;
+    ArrayList<BaiHat> mangbaihat;
 
-    public DanhsachbaihatAdapter(Context context, ArrayList<Baihat> mangbaihat) {
+    public DanhsachbaihatAdapter(Context context, ArrayList<BaiHat> mangbaihat) {
         this.context = context;
         this.mangbaihat = mangbaihat;
     }
@@ -39,7 +38,7 @@ public class DanhsachbaihatAdapter extends RecyclerView.Adapter<DanhsachbaihatAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Baihat baihat = mangbaihat.get(position);
+        BaiHat baihat = mangbaihat.get(position);
         holder.txtcasi.setText(baihat.getCaSi());
         holder.txttenbaihat.setText(baihat.getTenBaiHat());
         holder.txtindex.setText(position + 1  + "");

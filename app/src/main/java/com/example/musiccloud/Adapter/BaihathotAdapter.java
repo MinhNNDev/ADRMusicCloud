@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musiccloud.Activity.PlayNhacActivity;
-import com.example.musiccloud.Model.TopSong;
+import com.example.musiccloud.Model.BaiHat;
 import com.example.musiccloud.R;
 import com.squareup.picasso.Picasso;
 
@@ -21,9 +21,9 @@ import java.util.ArrayList;
 public class BaihathotAdapter extends RecyclerView.Adapter<BaihathotAdapter.ViewHolder>{
 
     Context context;
-    ArrayList<TopSong> baihatArrayList;
+    ArrayList<BaiHat> baihatArrayList;
 
-    public BaihathotAdapter(Context context, ArrayList<TopSong> baihatArrayList) {
+    public BaihathotAdapter(Context context, ArrayList<BaiHat> baihatArrayList) {
         this.context = context;
         this.baihatArrayList = baihatArrayList;
     }
@@ -38,7 +38,7 @@ public class BaihathotAdapter extends RecyclerView.Adapter<BaihathotAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TopSong baihat = baihatArrayList.get(position);
+        BaiHat baihat = baihatArrayList.get(position);
         holder.txtcasi.setText(baihat.getCaSi());
         holder.txtten.setText(baihat.getTenBaiHat());
         Picasso.get().load(baihat.getHinhBaiHat()).into(holder.imghinh);
@@ -60,13 +60,10 @@ public class BaihathotAdapter extends RecyclerView.Adapter<BaihathotAdapter.View
             txtcasi = itemView.findViewById(R.id.textviewcasibaihathot);
             imghinh = itemView.findViewById(R.id.imageviewbaihathot);
             imgluotthich = itemView.findViewById(R.id.imageviewluotthich);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, PlayNhacActivity.class);
-                    //intent.putExtra("cakhuc", baihatArrayList.get(getOldPosition()));
-                    context.startActivity(intent);
-                }
+            itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, PlayNhacActivity.class);
+                intent.putExtra("cakhuc", baihatArrayList.get( this.getLayoutPosition() ));
+                context.startActivity(intent);
             });
         }
     }

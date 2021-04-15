@@ -1,19 +1,16 @@
 package com.example.musiccloud.Fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musiccloud.Adapter.BaihathotAdapter;
-import com.example.musiccloud.Model.TopSong;
+import com.example.musiccloud.Model.BaiHat;
 import com.example.musiccloud.R;
 import com.example.musiccloud.Service.APIService;
 import com.example.musiccloud.Service.DataService;
@@ -30,9 +27,9 @@ public class Fragment_Bai_Hat_Hot extends Fragment {
     RecyclerView recyclerViewbaihathot;
     BaihathotAdapter baihathotAdapter;
 
-    @Nullable
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView( LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_bai_hat_thich_nhat, container, false);
         recyclerViewbaihathot = view.findViewById(R.id.recycleviewbaihathot);
         GetData();
@@ -41,11 +38,15 @@ public class Fragment_Bai_Hat_Hot extends Fragment {
 
     private void GetData() {
         DataService dataService = APIService.getService();
-        Call<List<TopSong>> callback = dataService.GetBaiHatHot();
-        callback.enqueue(new Callback<List<TopSong>>() {
+        Call<List<BaiHat>> callback = dataService.GetBaiHatHot();
+        callback.enqueue(new Callback<List<BaiHat>>() {
             @Override
-            public void onResponse(Call<List<TopSong>> call, Response<List<TopSong>> response) {
-                ArrayList<TopSong> baihatArrayList = (ArrayList<TopSong>) response.body();
+            public void onResponse(Call<List<BaiHat>> call, Response<List<BaiHat>> response) {
+                ArrayList<BaiHat> baihatArrayList = (ArrayList<BaiHat>) response.body();
+
+                for (BaiHat songcc : baihatArrayList)
+                    System.out.println("Link ko che:" + songcc.getLinkBaiHat());
+
                 baihathotAdapter = new BaihathotAdapter(getActivity(), baihatArrayList);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
                 linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -54,7 +55,7 @@ public class Fragment_Bai_Hat_Hot extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<TopSong>> call, Throwable t) {
+            public void onFailure(Call<List<BaiHat>> call, Throwable t) {
 
             }
         });

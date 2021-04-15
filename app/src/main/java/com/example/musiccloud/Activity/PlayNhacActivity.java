@@ -2,13 +2,12 @@ package com.example.musiccloud.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.musiccloud.Adapter.ViewPagerPlaylistNhac;
 import com.example.musiccloud.Fragment.Fragment_Dia_Nhac;
 import com.example.musiccloud.Fragment.Fragment_Playlist;
-import com.example.musiccloud.Model.Baihat;
+import com.example.musiccloud.Model.BaiHat;
 import com.example.musiccloud.R;
 
 import android.content.Intent;
@@ -24,7 +23,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -38,30 +36,67 @@ public class PlayNhacActivity extends AppCompatActivity {
     SeekBar sktime;
     ImageButton imgPlay, imgRepeat, imgNext, imgPre, imgRandom;
     ViewPager viewPagerplaynhac;
-    public static ArrayList<Baihat> mangbaihat = new ArrayList<>();
+    public static ArrayList<BaiHat> mangbaihat = new ArrayList<>();
     public static ViewPagerPlaylistNhac adapternhac;
-    Fragment_Dia_Nhac fragment_dia_nhac = (Fragment_Dia_Nhac) adapternhac.getItem(1);
+    Fragment_Dia_Nhac fragment_dia_nhac = new Fragment_Dia_Nhac();
     Fragment_Playlist fragment_playlist;
     MediaPlayer mediaPlayer;
+
+    private Handler mHandler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_nhac);
         Intent intent = getIntent();
-        if(intent.hasExtra("cakhuc")) {
-            Baihat baihat = intent.getParcelableExtra("cakhuc");
-            Toast.makeText(this, baihat.getTenBaiHat(), Toast.LENGTH_LONG).show();
+        if (intent.hasExtra("cakhuc")) {
+            BaiHat baihat = intent.getParcelableExtra("cakhuc");
+            mangbaihat.add(baihat);
         }
         init();
         eventClick();
-//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         if (intent.hasExtra("cacbaihat")) {
-            ArrayList<Baihat> mangbaihat = intent.getParcelableArrayListExtra("cacbaihat");
-            for(int i = 0; i < mangbaihat.size(); i++) {
+            ArrayList<BaiHat> mangbaihat = intent.getParcelableArrayListExtra("cacbaihat");
+            for (int i = 0; i < mangbaihat.size(); i++) {
                 Log.d("BBB", mangbaihat.get(i).getTenBaiHat());
             }
         }
+
+
+        PlayNhacActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(mediaPlayer != null){
+                    int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                    sktime.setProgress(mCurrentPosition);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");
+                    txtTimesong.setText(simpleDateFormat.format(mediaPlayer.getCurrentPosition()));
+                }
+                mHandler.postDelayed(this, 1000);
+            }
+        });
+
+        sktime.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(mediaPlayer != null && fromUser){
+                    mediaPlayer.seekTo(progress * 1000);
+                }
+            }
+        });
     }
 
     private void eventClick() {
@@ -69,26 +104,25 @@ public class PlayNhacActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (adapternhac.getItem(0) != null) {
+                if (adapternhac.getCount() > 0 && adapternhac.getItem(0) != null) {
                     if (mangbaihat.size() > 0) {
                         fragment_dia_nhac.PlayNhac(mangbaihat.get(0).getHinhBaiHat());
                         handler.removeCallbacks(this);
-                    }else {
+                    } else {
                         handler.postDelayed(this, 3000);
                     }
                 }
             }
         }, 500);
-        imgPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.pause();
-                    imgPlay.setImageResource(R.drawable.iconplay);
-                } else  {
-                    mediaPlayer.start();
-                    imgPlay.setImageResource(R.drawable.iconpause);
-                }
+
+
+        imgPlay.setOnClickListener(v -> {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.pause();
+                imgPlay.setImageResource(R.drawable.iconplay);
+            } else {
+                mediaPlayer.start();
+                imgPlay.setImageResource(R.drawable.iconpause);
             }
         });
     }
@@ -113,19 +147,20 @@ public class PlayNhacActivity extends AppCompatActivity {
             }
         });
         toolbarplaynhac.setTitleTextColor(Color.WHITE);
-        fragment_dia_nhac = new Fragment_Dia_Nhac();
+        //fragment_dia_nhac = new Fragment_Dia_Nhac();
         fragment_playlist = new Fragment_Playlist();
         adapternhac = new ViewPagerPlaylistNhac(getSupportFragmentManager());
         //adapternhac.AddFragment(fragment_playlist);
         adapternhac.AddFragment(fragment_dia_nhac);
         viewPagerplaynhac.setAdapter(adapternhac);
-        fragment_dia_nhac = (Fragment_Dia_Nhac) adapternhac.getItem(1);
+        //fragment_dia_nhac = (Fragment_Dia_Nhac) adapternhac.getItem(1);
         if (mangbaihat.size() > 0) {
             getSupportActionBar().setTitle(mangbaihat.get(0).getTenBaiHat());
             new PlayMp3().execute(mangbaihat.get(0).getLinkBaiHat());
             imgPlay.setImageResource(R.drawable.iconpause);
         }
     }
+
     class PlayMp3 extends AsyncTask<String, Void, String> {
 
         @Override
@@ -137,17 +172,17 @@ public class PlayNhacActivity extends AppCompatActivity {
         protected void onPostExecute(String baihat) {
             super.onPostExecute(baihat);
             try {
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    mediaPlayer.stop();
-                    mediaPlayer.reset();
-                }
-            });
-            mediaPlayer.setDataSource(baihat);
-            mediaPlayer.prepare();
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mediaPlayer.stop();
+                        mediaPlayer.reset();
+                    }
+                });
+                mediaPlayer.setDataSource(baihat);
+                mediaPlayer.prepare();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -159,6 +194,6 @@ public class PlayNhacActivity extends AppCompatActivity {
     private void TimeSong() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");
         txtTotaltimesong.setText(simpleDateFormat.format(mediaPlayer.getDuration()));
-        sktime.setMax(mediaPlayer.getDuration());
+        sktime.setMax(mediaPlayer.getDuration()/1000);
     }
 }

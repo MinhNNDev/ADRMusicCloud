@@ -1,10 +1,9 @@
 package com.example.musiccloud.Service;
 
 import com.example.musiccloud.Model.Album;
-import com.example.musiccloud.Model.Baihat;
+import com.example.musiccloud.Model.BaiHat;
 import com.example.musiccloud.Model.Playlist;
 import com.example.musiccloud.Model.QuangCao;
-import com.example.musiccloud.Model.TopSong;
 
 import java.util.List;
 
@@ -26,14 +25,14 @@ public interface DataService {
     Call<List<Album>> GetAlbumHot();
 
     @GET("topSong.php")
-    Call<List<TopSong>> GetBaiHatHot();
+    Call<List<BaiHat>> GetBaiHatHot();
 
     @FormUrlEncoded
     @POST("listSong.php")
-    Call<List<Baihat>> GetDanhsachbaihattheoquangcao(@Field("idquangcao") String idquangcao);
+    Call<List<BaiHat>> GetDanhsachbaihattheoquangcao(@Field("idquangcao") String idquangcao);
 
     @FormUrlEncoded
     @POST("playlistEveryday.php")
-    Call<List<Baihat>> GetDanhsachbaihattheoplaylist(@Field("idPlaylist") String idplaylist);
+    Call<List<BaiHat>> GetDanhsachbaihattheoplaylist(@Field("idPlaylist") String idplaylist);
 
 }

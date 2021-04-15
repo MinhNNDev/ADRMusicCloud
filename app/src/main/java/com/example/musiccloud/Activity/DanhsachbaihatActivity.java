@@ -1,16 +1,11 @@
 package com.example.musiccloud.Activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musiccloud.Adapter.DanhsachbaihatAdapter;
-import com.example.musiccloud.Model.Baihat;
+import com.example.musiccloud.Model.BaiHat;
 import com.example.musiccloud.Model.Playlist;
 import com.example.musiccloud.Model.QuangCao;
 import com.example.musiccloud.R;
@@ -29,9 +24,6 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +40,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
     Toolbar toolbar;
     RecyclerView recyclerViewDanhsachbaihat;
     FloatingActionButton floatingActionButton;
-    ArrayList<Baihat> mangbaihat;
+    ArrayList<BaiHat> mangbaihat;
     DanhsachbaihatAdapter danhsachbaihatAdapter;
     Playlist playlist;
 
@@ -59,8 +51,8 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         DataIntent();
         anhxa();
         init();
-//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         if(quangCao != null && !quangCao.getTenBaiHat().equals("")) {
             setValueInView(quangCao.getTenBaiHat(), quangCao.getHinhBaiHat());
@@ -75,18 +67,18 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
 
     private void GetDataPlaylist(String idplaylist) {
         DataService dataService = APIService.getService();
-        Call<List<Baihat>> callback = dataService.GetDanhsachbaihattheoplaylist(idplaylist);
-        callback.enqueue(new Callback<List<Baihat>>() {
+        Call<List<BaiHat>> callback = dataService.GetDanhsachbaihattheoplaylist(idplaylist);
+        callback.enqueue(new Callback<List<BaiHat>>() {
             @Override
-            public void onResponse(Call<List<Baihat>> call, Response<List<Baihat>> response) {
-                mangbaihat= (ArrayList<Baihat>) response.body();
+            public void onResponse(Call<List<BaiHat>> call, Response<List<BaiHat>> response) {
+                mangbaihat= (ArrayList<BaiHat>) response.body();
                 danhsachbaihatAdapter = new DanhsachbaihatAdapter(DanhsachbaihatActivity.this, mangbaihat);
                 recyclerViewDanhsachbaihat.setLayoutManager(new LinearLayoutManager(DanhsachbaihatActivity.this));
                 recyclerViewDanhsachbaihat.setAdapter(danhsachbaihatAdapter);
             }
 
             @Override
-            public void onFailure(Call<List<Baihat>> call, Throwable t) {
+            public void onFailure(Call<List<BaiHat>> call, Throwable t) {
 
             }
         });
@@ -94,18 +86,18 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
 
     private void GetDataQuangCao( String id) {
         DataService dataService = APIService.getService();
-        Call<List<Baihat>> callback = dataService.GetDanhsachbaihattheoquangcao(id);
-        callback.enqueue(new Callback<List<Baihat>>() {
+        Call<List<BaiHat>> callback = dataService.GetDanhsachbaihattheoquangcao(id);
+        callback.enqueue(new Callback<List<BaiHat>>() {
             @Override
-            public void onResponse(Call<List<Baihat>> call, Response<List<Baihat>> response) {
-                mangbaihat = (ArrayList<Baihat>) response.body();
+            public void onResponse(Call<List<BaiHat>> call, Response<List<BaiHat>> response) {
+                mangbaihat = (ArrayList<BaiHat>) response.body();
                 danhsachbaihatAdapter = new DanhsachbaihatAdapter(DanhsachbaihatActivity.this, mangbaihat);
                 recyclerViewDanhsachbaihat.setLayoutManager(new LinearLayoutManager(DanhsachbaihatActivity.this));
                 recyclerViewDanhsachbaihat.setAdapter(danhsachbaihatAdapter);
             }
 
             @Override
-            public void onFailure(Call<List<Baihat>> call, Throwable t) {
+            public void onFailure(Call<List<BaiHat>> call, Throwable t) {
 
             }
         });
