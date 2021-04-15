@@ -2,11 +2,14 @@ package com.example.musiccloud.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.musiccloud.Adapter.DanhsachcacplaylistAdapter;
 import com.example.musiccloud.Model.Playlist;
 import com.example.musiccloud.R;
 import com.example.musiccloud.Service.APIService;
@@ -23,6 +26,7 @@ public class DanhsachcacplaylistActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     RecyclerView recyclerViewdanhsachcacplaylist;
+    DanhsachcacplaylistAdapter danhsachcacplaylistAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,9 @@ public class DanhsachcacplaylistActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
                 ArrayList<Playlist> mangPlaylist = (ArrayList<Playlist>) response.body();
+                danhsachcacplaylistAdapter= new DanhsachcacplaylistAdapter(DanhsachcacplaylistActivity.this, mangPlaylist);
+                recyclerViewdanhsachcacplaylist.setLayoutManager(new LinearLayoutManager(DanhsachcacplaylistActivity.this));
+                recyclerViewdanhsachcacplaylist.setAdapter(danhsachcacplaylistAdapter);
             }
 
             @Override

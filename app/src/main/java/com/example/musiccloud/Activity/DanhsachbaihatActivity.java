@@ -1,7 +1,10 @@
 package com.example.musiccloud.Activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
@@ -24,6 +27,9 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,16 +111,16 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
 
     private void setValueInView(String ten, String hinh) {
         collapsingToolbarLayout.setTitle(ten);
-//        try {
-//            URL url = new URL(hinh);
-//            Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-//            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
-//            collapsingToolbarLayout.setBackground(bitmapDrawable);
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            URL url = new URL(hinh);
+            Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
+            collapsingToolbarLayout.setBackground(bitmapDrawable);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Picasso.get().load(hinh).into(imgdanhsachcakhuc);
 
     }

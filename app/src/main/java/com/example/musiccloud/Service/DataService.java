@@ -32,7 +32,7 @@ public interface DataService {
     Call<List<BaiHat>> GetDanhsachbaihattheoquangcao(@Field("idquangcao") String idquangcao);
 
     @FormUrlEncoded
-    @POST("playlistEveryday.php")
+    @POST("allSong.php")
     Call<List<BaiHat>> GetDanhsachbaihattheoplaylist(@Field("idPlaylist") String idplaylist);
 
     @GET("allPlayList.php")
