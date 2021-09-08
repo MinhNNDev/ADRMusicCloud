@@ -64,9 +64,10 @@ public class PlayNhacActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         if (intent.hasExtra("cacbaihat")) {
-            ArrayList<BaiHat> mangbaihat = intent.getParcelableArrayListExtra("cacbaihat");
-            for (int i = 0; i < mangbaihat.size(); i++) {
-                Log.d("BBB", mangbaihat.get(i).getTenBaiHat());
+            ArrayList<BaiHat> songs = intent.getParcelableArrayListExtra("cacbaihat");
+            for (int i = 0; i < songs.size(); i++) {
+                mangbaihat.add(songs.get(i));
+                Log.d("BBB", songs.get(i).getTenBaiHat());
             }
         }
 
@@ -334,7 +335,7 @@ public class PlayNhacActivity extends AppCompatActivity {
         if (mangbaihat.size() > 0) {
             getSupportActionBar().setTitle(mangbaihat.get(0).getTenBaiHat());
             new PlayMp3().execute(mangbaihat.get(0).getLinkBaiHat());
-            imgPlay.setImageResource(R.drawable.iconpause);
+           imgPlay.setImageResource(R.drawable.iconpause);
         }
     }
 
